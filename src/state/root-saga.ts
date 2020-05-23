@@ -1,6 +1,6 @@
 import { put, takeEvery, all, select } from "redux-saga/effects";
 import { AnyAction } from "redux";
-import { State } from "../state";
+import { State } from ".";
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 function* buyBuilding(action: AnyAction) {
