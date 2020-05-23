@@ -26,12 +26,6 @@ function* eventLoop() {
 function* watchBuyBuilding() {
   yield takeEvery("BUY_BUILDING", buyBuilding);
 }
-
-function* incrementAsync() {
-  yield delay(1000);
-  yield put({ type: "INCREMENT" });
-}
-
 function* persistState() {
   while (true) {
     yield delay(10000);
