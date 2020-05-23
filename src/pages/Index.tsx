@@ -48,20 +48,14 @@ const BuyableBuilding: React.FunctionComponent<Building> = ({
 }) => {
   const numberOfCookies = useNumberOfCookies();
   const dispatch = useDispatch();
+  const buyBuilding = () =>
+    dispatch({ type: "BUY_BUILDING", payload: { type, price } });
 
   return (
     <div style={{ backgroundColor: "gray", margin: "10px" }}>
       <div>{type}</div>
       <div>Price: {price}</div>
-      {numberOfCookies >= price && (
-        <button
-          onClick={() =>
-            dispatch({ type: "BUY_BUILDING", payload: { type, price } })
-          }
-        >
-          Buy
-        </button>
-      )}
+      {numberOfCookies >= price && <button onClick={buyBuilding}>Buy</button>}
       <div>{numberOfBuildingsOwned}</div>
     </div>
   );

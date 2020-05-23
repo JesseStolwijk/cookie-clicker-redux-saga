@@ -2,14 +2,25 @@ import { AnyAction } from "redux";
 import { useSelector } from "react-redux";
 import { Building, BuildingType } from "./buildings";
 
-export const reducer = (
-  state: State = {
-    numberOfCookies: 0,
-    cookiesPerSecond: 0,
-    buildings: [
-      { type: BuildingType.CURSOR, numberOfBuildingsOwned: 0, price: 0 },
-    ],
+const INITIAL_STATE: State = {
+  numberOfCookies: 0,
+  cookiesPerSecond: 0,
+  buildings: {
+    [BuildingType.CURSOR]: {
+      type: BuildingType.CURSOR,
+      numberOfBuildingsOwned: 0,
+      price: 0,
+    },
+    [BuildingType.GRANDMA]: {
+      type: BuildingType.GRANDMA,
+      numberOfBuildingsOwned: 0,
+      price: 0,
+    },
   },
+};
+
+export const reducer = (
+  state: State = INITIAL_STATE,
   action: AnyAction
 ): State => {
   console.log("Recuder called with action: ", action);
@@ -27,9 +38,8 @@ export const reducer = (
         numberOfCookies: state.numberOfCookies - action.value,
       };
     case "INCREMENT_NUMBER_OF_BUILDINGS":
-      const targetBuilding: Building | undefined = state.buildings.find(
-        (building) => building.type === action.buildingType
-      );
+      const targetBuilding: Building | undefined =
+        state.buildings[action.buildingType];
 
       if (!targetBuilding) {
         return state;
@@ -37,13 +47,13 @@ export const reducer = (
 
       return {
         ...state,
-        buildings: [
+        buildings: {
           ...state.buildings,
-          {
+          [targetBuilding.type]: {
             ...targetBuilding,
             numberOfBuildingsOwned: targetBuilding.numberOfBuildingsOwned + 1,
           },
-        ],
+        },
       };
     case "INCREMENT_COOKIES_PER_SECOND_BY":
       return {
@@ -61,5 +71,7 @@ export const useNumberOfCookies = () =>
 export interface State {
   numberOfCookies: number;
   cookiesPerSecond: number;
-  buildings: Building[];
+  buildings: {
+    [buildingType: string]: Building;
+  };
 }
