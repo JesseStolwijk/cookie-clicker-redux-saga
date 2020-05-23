@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Store from "./Store";
+import Store from "./CookieStore";
 import { useNumberOfCookies, State } from "../state";
-import CookieImage from "../assets/perfectCookie.png";
+import cookie from "../assets/perfectCookie.png";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ function App() {
       <h1>{numberOfCookies} cookies</h1>
       <div>per second: {cookiesPerSecond}</div>
       <button onClick={() => dispatch({ type: "INCREMENT" })}>
-        <img src={CookieImage}></img>
+        <img src={cookie}></img>
       </button>
 
       <Store />

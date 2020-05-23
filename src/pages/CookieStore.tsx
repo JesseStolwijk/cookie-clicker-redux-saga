@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNumberOfCookies } from "../state";
 import { Building, BuildingType } from "../state/buildings";
 
-const Store = () => {
+const CookieStore = () => {
   return (
     <div>
       <BuyableBuilding
@@ -46,4 +46,4 @@ const BuyableBuilding: React.FunctionComponent<Building> = ({
   );
 };
 
-export default Store;
+export default CookieStore;
