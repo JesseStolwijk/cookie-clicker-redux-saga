@@ -4,12 +4,13 @@ import { State } from ".";
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 function* buyBuilding(action: AnyAction) {
-  yield put({
-    type: "INCREMENT_NUMBER_OF_BUILDINGS",
-    buildingType: action.payload.type,
-  });
+  const state: State = yield select();
+
   yield put({ type: "DECREMENT_BY", value: action.payload.price });
-  yield put({ type: "INCREMENT_COOKIES_PER_SECOND_BY", value: 0.1 });
+  yield put({
+    type: "INCREMENT_COOKIES_PER_SECOND_BY",
+    value: state.buildings[action.payload.type].baseCookiesPerSecond,
+  });
 }
 
 function* eventLoop() {
@@ -34,6 +35,24 @@ function* watchIncrementAsync() {
   yield takeEvery("INCREMENT_ASYNC", incrementAsync);
 }
 
+function* persistState() {
+  while (true) {
+    yield delay(10000);
+
+    const state: State = yield select();
+    yield put({ type: "START_SAVING" });
+
+    localStorage.setItem("state", JSON.stringify(state));
+
+    yield put({ type: "SAVING_FINISHED" });
+  }
+}
+
 export default function* rootSaga() {
-  yield all([watchIncrementAsync(), watchBuyBuilding(), eventLoop()]);
+  yield all([
+    watchIncrementAsync(),
+    watchBuyBuilding(),
+    eventLoop(),
+    persistState(),
+  ]);
 }
