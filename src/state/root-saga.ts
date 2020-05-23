@@ -32,10 +32,6 @@ function* incrementAsync() {
   yield put({ type: "INCREMENT" });
 }
 
-function* watchIncrementAsync() {
-  yield takeEvery("INCREMENT_ASYNC", incrementAsync);
-}
-
 function* persistState() {
   while (true) {
     yield delay(10000);
@@ -63,7 +59,6 @@ function* watchIncrements() {
 
 export default function* rootSaga() {
   yield all([
-    watchIncrementAsync(),
     watchBuyBuilding(),
     eventLoop(),
     persistState(),
