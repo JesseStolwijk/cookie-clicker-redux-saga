@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Store from "./CookieStore";
 import { useNumberOfCookies, State } from "../state";
 import cookie from "../assets/perfectCookie.png";
+import { Building, BuildingType } from "../state/buildings";
 
-function App() {
+function Index() {
   const dispatch = useDispatch();
   const numberOfCookies = useNumberOfCookies();
   const cookiesPerSecond = useSelector(
@@ -19,9 +19,52 @@ function App() {
         <img src={cookie}></img>
       </button>
 
-      <Store />
+      <CookieStore />
     </div>
   );
 }
 
-export default App;
+const CookieStore = () => {
+  return (
+    <div>
+      <BuyableBuilding
+        type={BuildingType.CURSOR}
+        price={15}
+        numberOfBuildingsOwned={0}
+      />
+      <BuyableBuilding
+        type={BuildingType.GRANDMA}
+        price={100}
+        numberOfBuildingsOwned={0}
+      />
+    </div>
+  );
+};
+
+const BuyableBuilding: React.FunctionComponent<Building> = ({
+  type,
+  numberOfBuildingsOwned,
+  price,
+}) => {
+  const numberOfCookies = useNumberOfCookies();
+  const dispatch = useDispatch();
+
+  return (
+    <div style={{ backgroundColor: "gray", margin: "10px" }}>
+      <div>{type}</div>
+      <div>Price: {price}</div>
+      {numberOfCookies >= price && (
+        <button
+          onClick={() =>
+            dispatch({ type: "BUY_BUILDING", payload: { type, price } })
+          }
+        >
+          Buy
+        </button>
+      )}
+      <div>{numberOfBuildingsOwned}</div>
+    </div>
+  );
+};
+
+export default Index;
