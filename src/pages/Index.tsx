@@ -31,7 +31,7 @@ function Index() {
 
 const CookieStore = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
+    <div className="grid grid-cols-1 max-h-screen overflow-y-scroll">
       {Object.values(BuildingType).map((buildingType) => (
         <BuyableBuilding key={buildingType} type={buildingType} />
       ))}
@@ -60,14 +60,21 @@ const BuyableBuilding: React.FunctionComponent<BuyableBuildingProps> = ({
         })
       : {};
 
+  const backGroundClasses = hasEnoughCookies
+    ? "hover:bg-gray-200 p-2"
+    : "bg-gray-400";
+
   return (
     <div
       onClick={buyBuilding}
-      className="grid grid-rows-2 grid-flow-col align-middle hover:bg-indigo-500 p-2"
-      style={{ cursor: "pointer" }}
+      className={
+        "grid grid-rows-2 grid-flow-col align-middle p-2 select-none " +
+        backGroundClasses
+      }
+      style={hasEnoughCookies ? { cursor: "pointer" } : undefined}
     >
       <div className="row-span-1 col-span-1">
-        <p className="font-sans text-lg text-purple-600 text-left">
+        <p className="font-sans text-lg text-purple-600 text-left capitalize">
           {type.toLowerCase().replace("_", " ")}
         </p>
       </div>
