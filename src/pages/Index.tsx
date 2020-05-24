@@ -14,14 +14,17 @@ function Index() {
   );
 
   return (
-    <div>
-      <h1>{numberOfCookies} cookies</h1>
-      <div>per second: {cookiesPerSecond}</div>
-      <button onClick={() => dispatch({ type: "INCREMENT" })}>
-        <img src={cookie}></img>
-      </button>
-
-      <CookieStore />
+    <div className="flex bg-gray-200">
+      <div className="flex-1 text-gray-700 text-center bg-gray-100 px-4 py-2 m-2">
+        <h1>{numberOfCookies} cookies</h1>
+        <div>per second: {cookiesPerSecond}</div>
+        <button onClick={() => dispatch({ type: "INCREMENT" })}>
+          <img src={cookie}></img>
+        </button>
+      </div>
+      <div className="flex-1 text-gray-700 text-center bg-gray-100 px-4 py-2 m-2">
+        <CookieStore />
+      </div>
     </div>
   );
 }
